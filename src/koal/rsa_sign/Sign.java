@@ -25,7 +25,7 @@ import koal.key_generate.KeyGenerate;
  */
 public class Sign {
 
-	public static void main(String[] args)
+	/*public static void main(String[] args)
 			throws NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException,
 			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException {
 		KeyPair keyPair = KeyGenerate.keyPairGenerate("RSA");
@@ -35,11 +35,10 @@ public class Sign {
 		byte[] data = message.getBytes();
 		byte[] signData = sign(data, privateKey);
 		System.out.println("sign:  " + new BigInteger(signData).toString(16));
-		System.out.println(verify(signData, publicKey));
-	}
-
+		System.out.println(verify(data, publicKey,signData));
+	}*/
 	/**
-	 * 
+	 * PKSC#1签名
 	 * @param data
 	 *            byte[]类型 待签字的信息
 	 * @param privateKey
@@ -53,39 +52,33 @@ public class Sign {
 	public static byte[] sign(byte[] data, PrivateKey privateKey)
 			throws NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, SignatureException {
 
-		// Security.addProvider(new BouncyCastleProvider());
 		Signature signer = Signature.getInstance("SHA256WithRSA");
-		// Signature signer = Signature.getInstance("RSA","BC");
 		signer.initSign(privateKey);
 		signer.update(data);
 		return signer.sign();
 	}
 
-	public static boolean verify(byte[] data, PublicKey publicKey)
+	/**
+	 * PKSC#验签
+	 * @param data 待验签的数据
+	 * @param publicKey 用于验签的公钥
+	 * @param originText 用于对比验签的原文
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchPaddingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalBlockSizeException
+	 * @throws BadPaddingException
+	 * @throws IOException
+	 * @throws SignatureException
+	 */
+	public static boolean verify(byte[] data, PublicKey publicKey,byte[] originText)
 			throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException,
 			IllegalBlockSizeException, BadPaddingException, IOException, SignatureException {
-		/*
-		 * Cipher cipher = Cipher.getInstance("RSA/None/PKCS1Padding","BC");
-		 * cipher.init(Cipher.DECRYPT_MODE, publicKey);
-		 * 
-		 * byte[] decSig = cipher.doFinal(data);
-		 * 
-		 * ASN1InputStream aIn = new ASN1InputStream(decSig); ASN1Sequence seq =
-		 * (ASN1Sequence) aIn.readObject(); System.out.println("asn1: " +
-		 * ASN1Dump.dumpAsString(seq));
-		 * 
-		 * MessageDigest hash = MessageDigest.getInstance("SHA-256","BC");
-		 * hash.update(data);
-		 * 
-		 * ASN1OctetString signHash = (ASN1OctetString) seq.getObjectAt(1);
-		 * System.out.println(MessageDigest.isEqual(hash.digest(),
-		 * signHash.getOctets()));
-		 */
-		// Security.addProvider(new BouncyCastleProvider());
 		Signature signer = Signature.getInstance("SHA256WithRSA");
-		// Signature signer = Signature.getInstance("RSA","BC");
 		signer.initVerify(publicKey);
 		signer.update(data);
-		return signer.verify(data);
+		return signer.verify(originText);
 	}
 }
