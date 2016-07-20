@@ -42,7 +42,7 @@ public class Main {
 		System.out.println("\t\tº”√‹À„∑®");
 		EncryptDecrypt encryptDecrypt = new EncryptDecrypt();
 		String algorithm_aes = "AES";
-		String text = "helloword";
+		String text = "ncdjscindscdsnjfcds";
 		Key key = new KeyGenerate().keyGenerate(algorithm_aes);
 		String aes_en = new ToBase64().toBase64(encryptDecrypt.encrypt(algorithm_aes, text, key));
 		String aes_de =new String(encryptDecrypt.decrypt(algorithm_aes, aes_en, key));
@@ -56,8 +56,8 @@ public class Main {
 		String rc_en = new ToBase64().toBase64(encryptDecrypt.encrypt(algorithm_rc, text, key_rc4));
 		String rc_de = new String(encryptDecrypt.decrypt(algorithm_rc, rc_en, key_rc4));
 		System.out.println("plantext: " + text);
-		System.out.println("aes_es: " + rc_en);
-		System.out.println("aes_de: " + rc_de);
+		System.out.println("rc4_es: " + rc_en);
+		System.out.println("rc4_de: " + rc_de);
 		
 		System.out.println("--------------------------------------------------");
 		String algorithm_rsa = "RSA";
@@ -68,8 +68,8 @@ public class Main {
 		String rsa_en = new ToBase64().toBase64(encryptDecrypt.encrypt(algorithm_rsa, text, key_pub));
 		String rsa_de = new String(encryptDecrypt.decrypt(algorithm_rsa, rsa_en, key_pri));
 		System.out.println("plantext: " + text);
-		System.out.println("aes_es: " + rsa_en);
-		System.out.println("aes_de: " + rsa_de);
+		System.out.println("rsa_es: " + rsa_en);
+		System.out.println("rsa_de: " + rsa_de);
 		
 	}
 }

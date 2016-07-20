@@ -22,8 +22,6 @@ public class KeyGenerate {
 	 */
 	public static KeyPair keyPairGenerate(String algorithm) throws NoSuchAlgorithmException{
 		KeyPair keyPair = KeyPairGenerator.getInstance(algorithm).generateKeyPair();
-		/*System.out.println("key: " + new ToHEX().toHex(keyPair.getPublic().getEncoded()));
-		System.out.println("key: " + new ToHEX().toHex(keyPair.getPrivate().getEncoded()));*/
 		return keyPair;
 	}
 	
