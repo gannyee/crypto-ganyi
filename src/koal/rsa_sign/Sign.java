@@ -1,22 +1,20 @@
 package koal.rsa_sign;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.security.InvalidKeyException;
-import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
 import java.security.Signature;
 import java.security.SignatureException;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import koal.key_generate.KeyGenerate;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import sun.security.pkcs.PKCS7;
 
 /**
  * 
@@ -80,5 +78,9 @@ public class Sign {
 		signer.initVerify(publicKey);
 		signer.update(data);
 		return signer.verify(originText);
+	}
+	
+	public static void pkcs7(){
+//		pkcs7
 	}
 }
