@@ -12,16 +12,12 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import sun.security.pkcs.PKCS7;
-
 /**
  * 
  * @author C579
  *
  */
-public class Sign {
+public class PK1 {
 
 	/*public static void main(String[] args)
 			throws NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException,
