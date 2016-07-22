@@ -1,3 +1,1 @@
-> 201607 密码接口互通性测试
-
-> 要求详见 http://git.koal.com/training/crypto-test/wikis/home
+关于PKI对称加密和非对称加密的，以及pkcs1和pkcs7签名的算法实现
