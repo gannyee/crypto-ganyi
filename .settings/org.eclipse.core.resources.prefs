@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/com/koal/AES.java=UTF-8
+encoding//src/com/koal/CertificateParse.java=UTF-8
+encoding//src/com/koal/DataFormTranslate.java=UTF-8
+encoding//src/com/koal/KeyGenerate.java=UTF-8
+encoding//src/com/koal/MD.java=UTF-8
+encoding//src/com/koal/PKCS1.java=UTF-8
+encoding//src/com/koal/PKCS7.java=UTF-8
+encoding//src/com/koal/RC4.java=UTF-8
+encoding//src/com/koal/RSA.java=UTF-8
+encoding//src/com/koal/WriteToFile.java=UTF-8
