@@ -31,9 +31,15 @@ public class CertificateParse {
 	}
 
 	public static void parseKeyFile(String keyFile, String keyPass) {
-
+		KeyStore ks = null;
 		try {
-			KeyStore ks = KeyStore.getInstance("PKCS12");
+			if(keyFile.toLowerCase().endsWith("pfx")){
+				 ks = KeyStore.getInstance("PKCS12");
+			}else if(keyFile.toLowerCase().endsWith("jks")){
+				 ks = KeyStore.getInstance("JKS");
+			}else if(keyFile.toLowerCase().endsWith("pem")){
+				 ks = KeyStore.getInstance("PEM");
+			}
 			FileInputStream fis = new FileInputStream(keyFile);
 			// 如何 keyStore 密码为空，必须设置改密码为null，否则keystore将报错
 			char[] nPassword = null;

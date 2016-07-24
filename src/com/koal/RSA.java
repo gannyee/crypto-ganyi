@@ -23,80 +23,39 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class RSA {
-	
-	public static void main(String[] args) throws NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
+
+	public static void main(String[] args)
+			throws NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException {
 		KeyPair key = new KeyGenerate().keyPairGenerate("RSA");
 		PrivateKey privateKey = key.getPrivate();
 		PublicKey publicKey = key.getPublic();
 		new WriteToFile().wirteToFile("G:\\test\\rsa-prikey.hex", privateKey.getEncoded(), "hex");
 		new WriteToFile().wirteToFile("G:\\test\\rc-pubkey.hex", publicKey.getEncoded(), "hex");
-		File inputFile = new File("D:\\Downloads\\甘逸的简历(1).pdf");
+		File inputFile = new File("D:\\Downloads\\DOC112814-011 (1).pdf");
 		File outputFile = new File("G:\\test\\en-rsa.txt");
 		File outputFile1 = new File("G:\\test\\de-rsa.pdf");
-		encrypt1(inputFile, outputFile,publicKey );
-		decrypt1(outputFile, outputFile1, privateKey);
+		encrypt(inputFile, outputFile, publicKey);
+		decrypt(outputFile, outputFile1, privateKey);
 	}
-	
-	public static void encrypt(File inputFile,File outputFile, Key key){
+
+	public static void encrypt(File inputFile, File outputFile, PublicKey publicKey)
+			throws IllegalBlockSizeException, BadPaddingException {
 		try {
-			//新建文件
+			// 新建文件
 			InputStream inputStream = null;
 			OutputStream outputStream = null;
 			inputStream = new FileInputStream(inputFile);
 			outputStream = new FileOutputStream(outputFile);
-			//加密算法初始化
-			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.ENCRYPT_MODE, key);
-			
-			//以加密流读入文件
-			CipherInputStream cipherInputStream = new CipherInputStream(inputStream, cipher);
-			
-			byte[] cache = new byte[1024];
-			int read = 0;
-			while((read = cipherInputStream.read(cache)) != -1){
-				outputStream.write(cache, 0, read);
-				outputStream.flush();
-			}
-			cipherInputStream.close();
-		} catch (NoSuchAlgorithmException e) {
-			// 加密算法调用错误异常
-			System.out.println("加密算法调用错误异常");
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			// 加密算法填充异常
-			System.out.println("加密算法填充异常");
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			// 密钥异常
-			System.out.println("用于加密的文件的密钥异常");
-			e.printStackTrace();
-		}catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	}
-	
-	public static void encrypt1(File inputFile,File outputFile, PublicKey publicKey) throws IllegalBlockSizeException, BadPaddingException{
-		try {
-			//新建文件
-			InputStream inputStream = null;
-			OutputStream outputStream = null;
-			inputStream = new FileInputStream(inputFile);
-			outputStream = new FileOutputStream(outputFile);
-			//加密算法初始化
+			// 加密算法初始化
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-			
+
 			byte[] cache = new byte[117];
-			byte[] encrByte= null;
+			byte[] encrByte = null;
 			int read = 0;
-			while((read = inputStream.read(cache)) != -1){
+			while ((read = inputStream.read(cache)) != -1) {
 				encrByte = cipher.update(cache, 0, read);
 				encrByte = cipher.doFinal();
-				System.out.println("##### " + Arrays.toString(encrByte));
 				outputStream.write(encrByte);
 				outputStream.flush();
 			}
@@ -114,37 +73,36 @@ public class RSA {
 			// 密钥异常
 			System.out.println("用于加密的文件的密钥异常");
 			e.printStackTrace();
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 	}
-	
-	public static void decrypt1(File inputFile,File outputFile, PrivateKey privateKey) throws IllegalBlockSizeException, BadPaddingException{
+
+	public static void decrypt(File inputFile, File outputFile, PrivateKey privateKey)
+			throws IllegalBlockSizeException, BadPaddingException {
 		try {
-			//新建文件
+			// 新建文件
 			InputStream inputStream = null;
 			OutputStream outputStream = null;
 			inputStream = new FileInputStream(inputFile);
-			System.out.println("file:  "  + inputFile.getAbsolutePath() + "   length  " + inputFile.length());
 			outputStream = new FileOutputStream(outputFile);
-			//加密算法初始化
+			// 加密算法初始化
 			Cipher cipher = Cipher.getInstance("RSA");
 			cipher.init(Cipher.DECRYPT_MODE, privateKey);
-			byte[] cache = new byte[117];
+			byte[] cache = new byte[128];
 			byte[] decryType = null;
 			int read = 0;
-			while((read = inputStream.read(cache)) != -1){
-				System.out.println("read:  " + read);
+			while ((read = inputStream.read(cache)) != -1) {
+				decryType = cipher.update(cache, 0, read);
 				decryType = cipher.doFinal();
-				System.out.println("##### " + Arrays.toString(decryType));
 				outputStream.write(decryType);
 				outputStream.flush();
 			}
-			inputFile.getClass();
+			inputStream.close();
 			outputStream.close();
 		} catch (NoSuchAlgorithmException e) {
 			// 加密算法调用错误异常
@@ -158,54 +116,12 @@ public class RSA {
 			// 密钥异常
 			System.out.println("用于加密的文件的密钥异常");
 			e.printStackTrace();
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-	}
-	
-	public static void decrypt(File inputFile,File outputFile, Key key){
-		try {
-			//新建文件
-			InputStream inputStream = null;
-			OutputStream outputStream = null;
-			inputStream = new FileInputStream(inputFile);
-			outputStream = new FileOutputStream(outputFile);
-			//加密算法初始化
-			Cipher cipher = Cipher.getInstance("RSA");
-			cipher.init(Cipher.DECRYPT_MODE, key);
-			
-			//以加密流写入文件
-			CipherOutputStream cipheroutputStream = new CipherOutputStream(outputStream, cipher);
-			
-			byte[] cache = new byte[1024];
-			int read = 0;
-			while((read = inputStream.read(cache)) != -1){
-				cipheroutputStream.write(cache, 0, read);
-				cipheroutputStream.flush();
-			}
-			cipheroutputStream.close();
-		} catch (NoSuchAlgorithmException e) {
-			// 加密算法调用错误异常
-			System.out.println("加密算法调用错误异常");
-			e.printStackTrace();
-		} catch (NoSuchPaddingException e) {
-			// 加密算法填充异常
-			System.out.println("加密算法填充异常");
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			// 密钥异常
-			System.out.println("用于加密的文件的密钥异常");
-			e.printStackTrace();
-		}catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		}
 	}
 }
